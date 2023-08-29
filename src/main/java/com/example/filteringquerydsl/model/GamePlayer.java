@@ -23,6 +23,7 @@ public class GamePlayer {
     
     @ManyToOne
     @MapsId("username")
+    @JsonBackReference
     private Player player;
     
     @Column(name = "is_winner")

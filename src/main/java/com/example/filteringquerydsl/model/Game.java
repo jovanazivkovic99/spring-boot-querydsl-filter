@@ -1,6 +1,7 @@
 package com.example.filteringquerydsl.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,6 +35,7 @@ public class Game implements Serializable {
     private GameSet gameSet;
     
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<GamePlayer> gamePlayers;
     public enum Status {
         COMPLETED,

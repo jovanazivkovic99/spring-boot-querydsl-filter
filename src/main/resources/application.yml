@@ -1,11 +1,11 @@
 server:
-  port: 8081
+  port: 8083
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     password: password
     username: postgres
-    url: jdbc:postgresql://localhost:5432/yamb
+    url: jdbc:postgresql://localhost:5432/yamb-querydsl
   jpa:
     hibernate:
       ddl-auto: update
