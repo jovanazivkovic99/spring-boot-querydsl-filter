@@ -11,6 +11,7 @@ import java.util.List;
 public record GameFilterRequest(List<String> opponentUsernames,
                                 LocalDateTime dateFrom,
                                 LocalDateTime dateTo,
-                                String gameStatus) {
+                                String gameStatus,
+                                String winnerUsername) {
 
 }

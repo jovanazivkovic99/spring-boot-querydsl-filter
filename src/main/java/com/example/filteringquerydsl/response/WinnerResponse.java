@@ -5,7 +5,6 @@ import lombok.Builder;
 @Builder
 public record WinnerResponse(String firstName,
                              String lastName,
-                             String username,
-                             byte[] image) {
+                             String username) {
 
 }

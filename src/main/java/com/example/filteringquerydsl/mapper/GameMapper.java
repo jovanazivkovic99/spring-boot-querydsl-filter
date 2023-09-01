@@ -2,13 +2,14 @@ package com.example.filteringquerydsl.mapper;
 
 import com.example.filteringquerydsl.model.Game;
 import com.example.filteringquerydsl.model.GamePlayer;
-import com.example.filteringquerydsl.response.GameResponse;
-import com.example.filteringquerydsl.response.PlayerResponse;
+import com.example.filteringquerydsl.response.GameFilterResponse;
+import com.example.filteringquerydsl.response.PlayerFilterResponse;
 import com.example.filteringquerydsl.response.WinnerResponse;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,18 +22,15 @@ public interface GameMapper {
     @Mapping(target = "gameStatus", source = "game.status")
     @Mapping(target = "players", expression = "java(mapPlayers(game.getGamePlayers()))")
     @Mapping(target = "winner", expression = "java(mapWinner(game))")
-    GameResponse convertGameToGameResponse (Game game);
+    GameFilterResponse convertGameToGameResponse (Game game);
     
-    default List<PlayerResponse> mapPlayers(List<GamePlayer> gamePlayers) {
+    @Mapping(target = "username", source = "gamePlayer.player.username")
+    PlayerFilterResponse mapGamePlayerToPlayerResponse (GamePlayer gamePlayer);
+    
+    default List<PlayerFilterResponse> mapPlayers (List<GamePlayer> gamePlayers) {
         return gamePlayers.stream()
                           .map(this::mapGamePlayerToPlayerResponse)
                           .collect(Collectors.toList());
-    }
-    default PlayerResponse mapGamePlayerToPlayerResponse(GamePlayer gamePlayer) {
-        return PlayerResponse.builder()
-                             .username(gamePlayer.getPlayer().getUsername())
-                             .image(gamePlayer.getImage())
-                             .build();
     }
     
     default WinnerResponse mapWinner(Game game) {
@@ -46,7 +44,6 @@ public interface GameMapper {
                                  .firstName(winner.getPlayer().getFirstName())
                                  .lastName(winner.getPlayer().getLastName())
                                  .username(winner.getPlayer().getUsername())
-                                 .image(winner.getImage())
                                  .build();
         } else {
             return null; // No winner found
